@@ -6,10 +6,10 @@ async function updateArticle (ctx) {
   const data = ctx.request.body
   let err
   const obj = {
-    title: '文章标题',
-    description: '文章概要',
-    read_type: '阅读权限',
-    content: '文章内容'
+    title: '申请标题',
+    description: '申请概要',
+    read_type: '审核权限',
+    content: '申请内容'
   }
   for (let key in obj) {
     if (!data[key]) {
@@ -29,14 +29,14 @@ async function updateArticle (ctx) {
     const user = ctx.state.userInfo// 获取用户信息
     const connection = await P.mysql.createConnection(P.config.mysqlDB)
     if (data.id > 0) {
-      // 编辑文章
+      // 编辑申请
       if (user.user_type > 2) {
         // 非管理员需要验证是否为自己的文章(同时普通管理员也可修改超管文章)
         const [rows] = await connection.execute('SELECT `id` FROM `article` where `id`=? and passed=1 and `user_id`=?', [data.id, user.id])
         if (!rows.length) {
           ctx.body = {
             success: false,
-            message: '无权编辑此文章',
+            message: '无权编辑此申请',
             data: {}
           }
           return
@@ -44,7 +44,7 @@ async function updateArticle (ctx) {
       }
       array.push(data.id)
       const [result] = await connection.execute('UPDATE `article` SET `title`=?,`description`=?,`read_type`=?,`sort_id`=?,`content`=?,`article_extend`=? where `id`=?', array)
-      err = result.affectedRows === 1 ? '' : '文章修改失败'
+      err = result.affectedRows === 1 ? '' : '申请表修改失败'
     } else {
       // 添加文章
       let d = new Date()
@@ -53,7 +53,7 @@ async function updateArticle (ctx) {
       array.push(user.user_type < 3 ? 1 : 0)// 是否通过审核
       array.push(user.id)// 用户信息
       const [result] = await connection.execute('INSERT INTO `article` (title,description,read_type,sort_id,content,article_extend,create_time,passed,user_id) VALUES (?,?,?,?,?,?,?,?,?)', array)
-      err = result.affectedRows === 1 ? '' : '文章添加失败'
+      err = result.affectedRows === 1 ? '' : '申请表添加失败'
     }
     await connection.end()
   }

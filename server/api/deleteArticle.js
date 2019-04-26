@@ -16,7 +16,7 @@ async function deleteArticle (ctx) {
     }
     const connection = await P.mysql.createConnection(P.config.mysqlDB)
     const [result] = await connection.execute(sql, arr)
-    msg = result.affectedRows > 0 ? '' : '删除文章失败！'
+    msg = result.affectedRows > 0 ? '' : '删除申请失败！'
     await connection.end()
   } else {
     msg = 'ID参数不合法'

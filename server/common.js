@@ -40,9 +40,12 @@ export default {
     deleteArticle: 2 // 删除文章（管理员级别或会员删除自己的）
   },
   sort_type: {
-    'news': '新闻',
-    'article': '文章',
-    'course': '教程'
+    'provice': '省级申请',
+    'city': '市级申请',
+    'town': '镇级申请'
+    // 'news': '省级申请',
+    // 'article': '市级申请',
+    // 'course': '镇级申请'
   },
   deal_results: {
     lack: '#失败：参数错误！',

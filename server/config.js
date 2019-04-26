@@ -4,7 +4,7 @@ module.exports = {
   mysqlDB: {
     host: 'localhost',
     user: 'root',
-    password: 'root',
+    password: '',
     database: 'scscmsdb'
   },
   upPath: 'dist/upFile/', // 上传路径
@@ -19,7 +19,7 @@ module.exports = {
     port: 465,
     secure: true,
     auth: {
-      user: 'guangda1234@126.com',
+      user: '1344246051@qq.com',
       pass: '您的邮箱授权码'
     }
   },

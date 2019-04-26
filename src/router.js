@@ -29,7 +29,7 @@ export default {
       path: '/article',
       meta: {
         verify: true,
-        title: '文章管理',
+        title: '申请表管理',
         icon: 'fa fa-file-text-o'
       },
       component: Home,
@@ -48,7 +48,7 @@ export default {
         meta: {
           verify: true,
           grade: common.page_grade.listArticle,
-          title: '文章列表',
+          title: '申请表列表',
           icon: 'fa fa-newspaper-o'
         },
         component: ArticleList
@@ -56,7 +56,7 @@ export default {
         path: 'add',
         meta: {
           verify: true,
-          title: '添加文章',
+          title: '添加申请表',
           icon: 'fa fa-clone'
         },
         component: ArticleAdd
@@ -64,7 +64,7 @@ export default {
         path: 'edit/:id',
         meta: {
           verify: true,
-          title: '编辑文章',
+          title: '编辑申请表',
           icon: 'fa fa-clone'
         },
         component: ArticleAdd
@@ -105,25 +105,26 @@ export default {
         },
         component: userAdd
       }]
-    }, {
-      path: '/upfile',
-      meta: {
-        verify: true,
-        title: '上传管理',
-        icon: 'fa fa-upload'
-      },
-      component: Home,
-      redirect: '/upfile/list',
-      children: [{
-        path: 'list',
-        meta: {
-          verify: true,
-          grade: common.page_grade.listUpFile,
-          title: '上传列表',
-          icon: 'fa fa-files-o'
-        },
-        component: UpFileList
-      }]
-    }
+    }, 
+    // {
+    //   path: '/upfile',
+    //   meta: {
+    //     verify: true,
+    //     title: '上传管理',
+    //     icon: 'fa fa-upload'
+    //   },
+    //   component: Home,
+    //   redirect: '/upfile/list',
+    //   children: [{
+    //     path: 'list',
+    //     meta: {
+    //       verify: true,
+    //       grade: common.page_grade.listUpFile,
+    //       title: '上传列表',
+    //       icon: 'fa fa-files-o'
+    //     },
+    //     component: UpFileList
+    //   }]
+    // }
   ]
 }

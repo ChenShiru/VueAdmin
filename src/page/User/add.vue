@@ -140,6 +140,7 @@ export default {
   mounted () {
     let id = this.$route.params.id
     if (id) {
+      console.log(1111)
       utils.ajax.call(this, '/getUserById', { id }, (obj, err) => {
         if (!err) {
           Object.getOwnPropertyNames(this.data).forEach(key => {

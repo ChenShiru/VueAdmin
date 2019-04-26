@@ -35,7 +35,7 @@
         <el-menu :default-active="headerCurRouter" background-color="#054572"
                  text-color="#fff"
                  active-text-color="#ffd04b" class="el-menu-demo" mode="horizontal" router>
-          <template v-for="item in getMenu" v-if="item.meta.show">
+          <template v-for="item in getMenu" v-show="item.meta.show" >
             <el-submenu :key="item.path" :index="item.path" v-if="item.meta.showSub">
               <template slot="title">{{item.meta.title}}</template>
               <el-menu-item v-for="child in item.children"
@@ -163,7 +163,7 @@ export default {
         }
       },
       isCollapse: false,
-      headerCurRouter: '',
+      headerCurRouter: '',//当前激活菜单的 index
       routes: [],
       menu: this.$router.options.routes,
       password: {
@@ -232,9 +232,11 @@ export default {
   computed: {
     getMenu () {
       let menu = this.$router.options.routes
+      console.log(menu)
       const paths = ['/', '*', '/login', 'edit/:id']
       menu.forEach(obj => {
         obj.meta = obj.meta || {}
+        //是否展示在菜单列表中
         obj.meta.show = !paths.includes(obj.path)
         let count = 0
         obj.children && obj.children.forEach(item => {
@@ -327,6 +329,7 @@ export default {
       utils.storage.remove('userInfo')
       this.$router.push('/login')
     },
+    //展示头像内容
     showUserInfo () {
       act.div = document.querySelector('.user_info')
       act.div.style.opacity = 1
@@ -362,13 +365,16 @@ export default {
     },
     updateCurMenu (route) {
       route = route || this.$route
+      console.log(route.matched)
       if (route.matched.length) {
         this.routes = route.matched
+        console.log(this.routes)
         let title = ''
         route.matched.forEach(obj => {
           title += obj.meta.title + ' - '
         })
         this.headerCurRouter = route.path
+        console.log(this.headerCurRouter)
         document.title = title + common.web_name
       } else {
         this.$router.push('/*')

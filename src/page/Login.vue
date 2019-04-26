@@ -15,7 +15,7 @@
         </el-form>
         <el-button type="primary" @click="login" :disabled="loading">登录</el-button>
         <el-button @click="openReg('register')" :disabled="loading">注册</el-button>
-        <el-button type="text" @click="openReg('retrieve')">忘记密码</el-button>
+        <!-- <el-button type="text" @click="openReg('retrieve')">忘记密码</el-button> -->
       </el-row>
     </el-row>
 
@@ -165,23 +165,24 @@ export default {
     }
   },
   mounted () {
-    utils.storage.remove('userInfo')
-    let key = this.$route.query.active || this.$route.query.find
-    if (key && common.deal_results.hasOwnProperty(key)) {
-      let msg = this.$route.query.active ? '激活用户' : '密码找回'
-      this.$notify({
-        title: '系统通知',
-        duration: 10000,
-        message: common.deal_results[key].replace('#', msg),
-        type: key === 'success' ? 'success' : 'error'
-      })
-    }
+    // utils.storage.remove('userInfo')
+    // let key = this.$route.query.active || this.$route.query.find
+    // console.log(key)
+    // if (key && common.deal_results.hasOwnProperty(key)) {
+    //   let msg = this.$route.query.active ? '激活用户' : '密码找回'
+    //   this.$notify({
+    //     title: '系统通知',
+    //     duration: 10000,
+    //     message: common.deal_results[key].replace('#', msg),
+    //     type: key === 'success' ? 'success' : 'error'
+    //   })
+    // }
   },
   methods: {
     registers () {
       this.$refs.regForm.validate(valid => {
         if (valid) {
-          this.$confirm('确定要' + this.title[this.type] + '？注意：操作后需要邮箱激活帐号！', '系统提醒', {
+          this.$confirm('确定要' + this.title[this.type] + '？', '系统提醒', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning'
@@ -193,7 +194,7 @@ export default {
                 this.register.visible = false
                 let msg = this.type === 'register' ? '注册用户' : '找回密码'
                 this.$message({
-                  message: (data.emailErr ? '#成功。但激活邮件发送失败，请联系管理员！' : '恭喜您#成功,请登录邮箱激活帐号！').replace('#', msg),
+                  message: (data.emailErr ? '#注册成功' : '恭喜您#成功！').replace('#', msg),
                   type: data.emailErr ? 'warning' : 'success'
                 })
               } else {
@@ -223,6 +224,7 @@ export default {
               utils.storage.set('userInfo', data, () => {
                 let url = this.$route.query.url
                 url = url && !url.includes('login') ? url : '/article/list'
+                //跳转
                 this.$router.replace(url)
               })
             }
@@ -244,7 +246,7 @@ export default {
 
 <style lang="less">
   .login {
-    background: #373a42 url('../assets/bg.jpg') no-repeat center;
+    background: #373a42 url('../assets/background.jpg') no-repeat center;
     background-size: cover;
     .el-dialog__body {
       padding-bottom: 0

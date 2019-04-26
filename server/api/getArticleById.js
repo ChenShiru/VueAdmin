@@ -8,19 +8,21 @@ async function getArticleById (ctx) {
   let msg
   const connection = await P.mysql.createConnection(P.config.mysqlDB)
   const [list] = await connection.execute('SELECT a.*,u.`user_name`,s.`sort_name` FROM article as a LEFT JOIN user as u on a.user_id = u.id LEFT JOIN sort as s on a.sort_id = s.id where a.id=?', [id])
+  console.log(list)
   const obj = list[0]
   if (list.length === 1) {
     const user = ctx.state.userInfo
+    console.log(user)
     obj.xx = JSON.stringify(user)
     if (user.user_type > 2 && user.id !== obj.user_id) {
       if (obj.passed === 0) {
-        obj.content = '<div class="no_access">文章仍在审核中<d>'
+        obj.content = '<div class="no_access">申请仍在审核中<d>'
       } else if (user.user_type > obj.read_type) {
         obj.content = '<div class="no_access">您无权查看此内容<d>'
       }
     }
   } else {
-    msg = '查无此文章'
+    msg = '查无此申请'
   }
   // 扩展上一条下一条数据
   const arr = [id]

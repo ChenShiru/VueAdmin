@@ -177,6 +177,35 @@ npm run server
 - 25、upFile: 上传过程（访问权限：自定义，代码在server/routes.js里）
 
 ### 后记
+vue-quill-editor说明书
+1.只需要填写功能名的
+加粗 - bold；
+斜体 - italic
+下划线 - underline
+删除线 - strike
+引用- blockquote
+代码块 - code-block
+公式 - formula
+图片 - image
+视频 - video
+清除字体样式- clean
+这一类的引用 直接['name','name']这种格式就好了
+
+2.需要有默认值的
+标题 - header  
+[{ 'header': 1 }, { 'header': 2 }] 值字体大小
+
+列表 - list 
+[{ 'list': 'ordered'}, { 'list': 'bullet' }], 值ordered，bullet
+
+上标/下标 - script 
+ [{ 'script': 'sub'}, { 'script': 'super' }],  值sub，super
+
+缩进 - indent
+[{ 'indent': '-1'}, { 'indent': '+1' }], 值-1，+1等
+
+文本方向 - direction
+[{ 'direction': 'rtl' }],    值rtl
 
 - 2018-10-23 使用`cdn`减少打包文件
 

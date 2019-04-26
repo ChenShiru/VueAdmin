@@ -1,5 +1,6 @@
 // 后台路由配置
 const config = require('../config')
+//mysql2模块
 const mysql = require('mysql2/promise')
 const bcrypt = require('bcryptjs')
 const common = require('../common').default
@@ -49,6 +50,7 @@ function getArticleQuery(data, arr) {
     querying += ' and read_type=?'
     arr.push(data.read_type >> 0)
   }
+  
   return querying
 }
 

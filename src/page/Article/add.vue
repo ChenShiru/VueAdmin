@@ -1,20 +1,20 @@
 <template>
   <div class="add-article">
     <el-form ref="form" :model="data" :rules="rules" label-width="80px">
-      <el-form-item label="文章标题" prop="title">
+      <el-form-item label="申请表标题" prop="title">
         <el-input v-model="data.title"></el-input>
       </el-form-item>
-      <el-form-item label="文章分类" prop="sort_id">
+      <el-form-item label="申请表分类" prop="sort_id">
         <el-cascader :options="sort_data" v-model="sort_id" change-on-select
                      :props="defaultProps"></el-cascader>
       </el-form-item>
-      <el-form-item label="文章概要" prop="description">
+      <el-form-item label="申请表概要" prop="description">
         <el-input type="textarea" v-model="data.description"></el-input>
       </el-form-item>
-      <el-form-item label="作者">
+      <el-form-item label="申请人">
         <el-input readonly="readonly" :value="data.user_name" style="width:217px;opacity: 0.5"></el-input>
       </el-form-item>
-      <el-form-item label="阅读权限" prop="read_type">
+      <el-form-item label="审核权限" prop="read_type">
         <el-slider v-model="data.read_type" :format-tooltip="formatTooltip" :min="1" :max="4"></el-slider>
       </el-form-item>
       <el-form-item label="封面图片" prop="pic">
@@ -22,13 +22,13 @@
         <up-file ref="upload" :upload="{}" @successUpload="successUpload" @progress="onProgress"></up-file>
         <el-button @click="upImg" style="margin-left:10px" :disabled="grade.upFile">{{upText}}</el-button>
       </el-form-item>
-      <el-form-item label="文章内容" prop="content">
+      <el-form-item label="申请内容" prop="content">
         <quill-editor v-model="data.content" ref="myQuillEditor">
         </quill-editor>
       </el-form-item>
       <el-form-item style="text-align: right">
         <el-button @click="backList">返回列表</el-button>
-        <el-button type="primary" :disabled="grade.updateArticle||loading" @click="saveArticle">保存文章</el-button>
+        <el-button type="primary" :disabled="grade.updateArticle||loading" @click="saveArticle">保存</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -93,18 +93,18 @@ export default {
         title: [{
           required: true, message: '标题不能为空', trigger: 'change'
         }, {
-          pattern: /^.{1,100}$/, message: '请输入1-100个字符的文章标题', trigger: 'blur'
+          pattern: /^.{1,100}$/, message: '请输入1-100个字符的申请标题', trigger: 'blur'
         }],
         description: [{
-          required: true, message: '文章概要不能为空', trigger: 'change'
+          required: true, message: '申请概要不能为空', trigger: 'change'
         }, {
-          pattern: /^.{5,255}$/, message: '请输入5-255个字符的文章概要', trigger: 'blur'
+          pattern: /^.{5,255}$/, message: '请输入5-255个字符的申请概要', trigger: 'blur'
         }],
         read_type: [{
-          required: true, type: 'number', min: 1, max: 4, message: '请选择阅读权限', trigger: 'change'
+          required: true, type: 'number', min: 1, max: 4, message: '请选择审核权限', trigger: 'change'
         }],
         content: {
-          required: true, message: '文章内容不能为空'
+          required: true, message: '申请内容不能为空'
         }
       },
       defaultProps: {
@@ -175,6 +175,7 @@ export default {
           }
         }
         this.sort_data = arr
+        console.log(this.sort_data)
         let id = this.$route.params.id
         if (id) {
           utils.ajax.call(this, '/getArticleById', { id }, (obj, err) => {
@@ -201,6 +202,7 @@ export default {
                   if (item.id === cid) {
                     hasFind = true
                     this.sort_id = _a
+                  console.log(this.sort_id)
                   } else {
                     cb(item.children, _a)
                   }

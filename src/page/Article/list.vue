@@ -13,13 +13,13 @@
           <el-select v-model="search_data.read_type">
             <el-option label="全部" value=""></el-option>
             <el-option v-for="(value,key) in read_type" :key="key"
-                       :label="value" :value="key" v-if="key!=='0'">
+                       :label="value" :value="key" v-show="key!=='0'">
             </el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
           <el-button icon="search" type="primary" @click='onSearch'>查询</el-button>
-          <el-button icon="plus" @click="add" :disabled="grade.updateArticle">添加文章
+          <el-button icon="plus" @click="add" :disabled="grade.updateArticle">添加申请表
           </el-button>
         </el-form-item>
       </el-form>
@@ -51,15 +51,15 @@
       <div slot='title'>{{article.title}}</div>
       <div slot="content" class="sidebar_content" v-loading="loading">
         <el-row :gutter="20" class="">
-          <el-col :span="6"><strong>文章分类：</strong>{{article.sort_name}}</el-col>
-          <el-col :span="6"><strong>作者：</strong>{{article.user_name}}</el-col>
-          <el-col :span="6"><strong>阅读权限：</strong>{{read_type[article.read_type]}}</el-col>
+          <el-col :span="6"><strong>申请表分类：</strong>{{article.sort_name}}</el-col>
+          <el-col :span="6"><strong>申请人：</strong>{{article.user_name}}</el-col>
+          <el-col :span="6"><strong>审核权限：</strong>{{read_type[article.read_type]}}</el-col>
           <el-col :span="6"><strong>时间：</strong>{{article.create_time}}</el-col>
         </el-row>
         <el-row :gutter="20" class="">
-          <el-col :span="24"><strong>文章概要：</strong>{{article.description}}</el-col>
+          <el-col :span="24"><strong>申请表概要：</strong>{{article.description}}</el-col>
         </el-row>
-        <div class="article_content" v-html="article.content">文章内容</div>
+        <div class="article_content" v-html="article.content">申请表内容</div>
       </div>
       <div slot="foot" class="sidebar_foot">
         <p>上一条：<span v-if="!article.next.title">已经没有上一条数据</span>
@@ -107,12 +107,12 @@ export default {
       multipleSelection: [],
       table_data: {
         columns: [
-          { 'key': 'title', 'name': '文章标题', minWidth: 150 },
+          { 'key': 'title', 'name': '申请表标题', minWidth: 150 },
           { 'key': 'sort_name', 'name': '分类名称', width: 120 },
-          { 'key': 'user_name', 'name': '作者', width: 120 },
+          { 'key': 'user_name', 'name': '申请人', width: 120 },
           { 'key': 'passed', 'name': '状态', width: 80 },
-          { 'key': 'read_type', 'name': '阅读权限', width: 120 },
-          { 'key': 'create_time', 'name': '发表时间', minWidth: 120 },
+          { 'key': 'read_type', 'name': '审核权限', width: 120 },
+          { 'key': 'create_time', 'name': '申请时间', minWidth: 120 },
           { 'key': 'operations', 'name': '操作', width: 135 }
         ],
         total: 0,
@@ -139,10 +139,10 @@ export default {
         if (this.multipleSelection.length) {
           arr = this.multipleSelection
         } else {
-          return this.$message('请先选择文章')
+          return this.$message('请先选择申请表')
         }
       }
-      this.$confirm(`确定要${arr.length > 1 ? '批量删除文章' : '删除此文章'}吗？`, '系统提醒', {
+      this.$confirm(`确定要${arr.length > 1 ? '批量删除申请表' : '删除此申请表'}吗？`, '系统提醒', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -158,7 +158,7 @@ export default {
         if (this.multipleSelection.length) {
           arr = this.multipleSelection
         } else {
-          return this.$message('请先选择文章')
+          return this.$message('请先选择申请表')
         }
       }
       utils.ajax.call(this, '/passedArticle', { ids: arr.map(o => o.id).join(','), passed: pass }, (obj, err) => {
@@ -179,6 +179,7 @@ export default {
       this.$router.push('/article/add')
     },
     handleSelectionChange (val) {
+      console.log(val)
       this.multipleSelection = val
     },
     createButton (h, row, code, text) {
@@ -277,6 +278,7 @@ export default {
     // ajax请求列表数据
     ajaxData () {
       let p = this.sort_id
+      console.log(p);
       this.search_data.sort_id = p.length ? p.slice(-1)[0] : ''
       utils.ajax.call(this, '/listArticle', this.search_data, (obj, err) => {
         if (!err) {
@@ -319,6 +321,7 @@ export default {
       }
     })
   },
+  //vue的混入，分发 Vue 组件中可复用功能
   mixins: [common.mixin]
 }
 </script>

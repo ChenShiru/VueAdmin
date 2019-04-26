@@ -28,6 +28,9 @@ async function login (ctx) {
             success: true,
             data: {
               userInfo,
+              //userInfo 要生成token的主题信息
+              //P.config.JWTs.secret 这是加密的key（密钥)
+              //P.config.JWTs.expiresIn 过期时间
               token: jwt.sign(Object.assign({ ip }, userInfo),
                 P.config.JWTs.secret, { expiresIn: P.config.JWTs.expiresIn })
             }

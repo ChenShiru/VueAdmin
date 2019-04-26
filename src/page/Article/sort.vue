@@ -9,6 +9,7 @@
         <el-button type="danger" :disabled="grade.batchDelSort" @click="batchDelete">批量删除</el-button>
       </el-col>
     </el-row>
+    <!-- tree树形控件 -->
     <el-tree
       class="filter-tree"
       :data="data"
@@ -16,11 +17,12 @@
       :props="defaultProps"
       default-expand-all
       :show-checkbox="true"
-      :expand-on-click-node="false"
+      :expand-on-click-node="true"
       :filter-node-method="filterNode"
       :render-content="renderContent"
       ref="tree">
     </el-tree>
+    
     <el-dialog :title="getTitle" :visible.sync="visible">
       <el-form :model="form" :rules="rules" label-width="80px" ref="sortForm">
         <el-form-item label="父级分类">
@@ -107,6 +109,7 @@ export default {
             })
           }
         }
+        //对data进行格式化
         this.data = arr
       }
     })
@@ -162,6 +165,7 @@ export default {
                 msg = '修改分类成功！'
               } else if (this.type === 'plus') {
                 this.parent_store.append(json, this.parent_data)
+                console.log(this.parent_store);
                 msg = '添加子级分类成功！'
               }
               this.$message({
@@ -189,7 +193,10 @@ export default {
       if (!value) return true
       return data.sort_name.indexOf(value) !== -1
     },
+    //点击按钮的事件
     headleClick (icon, data, store) {
+      console.log(data)
+      console.log(store)
       if (icon === 'delete') {
         this.$confirm('确定要删除此分类吗？', '系统提醒', {
           confirmButtonText: '确定',
@@ -221,6 +228,7 @@ export default {
         this.visible = true
       }
     },
+    // 树形控件的render-content函数
     renderContent (h, { node, data, store }) {
       let but = (type, icon) => {
         let dis = icon === 'delete' ? (data.disabled || this.grade.deleteSort) : this.grade.updateSort
@@ -228,6 +236,7 @@ export default {
           props: { size: 'mini', type, icon: 'el-icon-' + icon, disabled: dis },
           on: {
             click: () => {
+              console.log(node)
               let p = node.parent
               this.parent_id = []
               while (p.parent) {
